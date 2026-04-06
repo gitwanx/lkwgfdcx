@@ -1224,6 +1224,11 @@
                             <input type="number" id="lockDuration" value="24" min="1" max="72">
                         </div>
                         <div class="form-group">
+                            <label>精灵数量</label>
+                            <input type="number" id="petCount" placeholder="留空表示自动从数据库获取" min="0">
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">留空表示自动从数据库获取精灵数量</p>
+                        </div>
+                        <div class="form-group">
                             <label>前台背景图片</label>
                             <div class="avatar-upload">
                                 <img id="frontBgImage" src="" alt="背景图片" style="width: 200px; height: 120px; object-fit: cover; margin-bottom: 10px;">
@@ -2170,8 +2175,9 @@
                 document.getElementById("defaultAdminPwd").value = settings.defaultAdminPwd;
                 document.getElementById("maxErrorCount").value = settings.maxErrorCount;
                 document.getElementById("lockDuration").value = settings.lockDuration;
-                document.getElementById("frontBgImage").src = settings.frontBgImage || "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=洛克王国%20魔法%20城堡%20背景%20梦幻%20蓝色%20天空%20云朵&image_size=landscape_16_9";
-                document.getElementById("loginBgImage").src = settings.loginBgImage || "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=洛克王国%20魔法%20城堡%20背景%20梦幻%20蓝色%20天空%20云朵&image_size=landscape_16_9";
+                document.getElementById("petCount").value = settings.petCount || "";
+                document.getElementById("frontBgImage").src = settings.frontBgImage || "images/front-bg.jpg";
+                document.getElementById("loginBgImage").src = settings.loginBgImage || "images/login-bg.jpg";
                 document.getElementById("showRecentQueries").checked = settings.showRecentQueries;
                 document.getElementById("showTopPets").checked = settings.showTopPets;
                 document.getElementById("showWatermark").checked = settings.showWatermark !== false;
@@ -3460,12 +3466,14 @@
                 document.getElementById("bgImageRepeat").addEventListener("change", updatePreview);
 
                 document.getElementById("saveSettingsBtn").addEventListener("click", function() {
+                    var petCount = document.getElementById("petCount").value.trim();
                     var settings = {
                         systemName: document.getElementById("systemName").value.trim(),
                         systemVersion: "2.0.0",
                         defaultAdminPwd: document.getElementById("defaultAdminPwd").value.trim(),
                         maxErrorCount: parseInt(document.getElementById("maxErrorCount").value),
                         lockDuration: parseInt(document.getElementById("lockDuration").value),
+                        petCount: petCount ? parseInt(petCount) : null,
                         frontBgImage: document.getElementById("frontBgImage").src,
                         loginBgImage: document.getElementById("loginBgImage").src,
                         showRecentQueries: document.getElementById("showRecentQueries").checked,

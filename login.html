@@ -301,6 +301,9 @@
                 var settings = JSON.parse(localStorage.getItem("settings") || "{}");
                 if (settings.loginBgImage) {
                     document.body.style.backgroundImage = 'url("' + settings.loginBgImage + '")';
+                } else {
+                    // 默认背景图片
+                    document.body.style.backgroundImage = 'url("images/login-bg.jpg")';
                 }
             }
 

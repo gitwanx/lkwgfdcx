@@ -463,7 +463,6 @@
             <button class="btn btn-secondary" id="resetBtn">重置清空</button>
         </div>
         <div class="btn-row">
-            <button class="btn btn-third" id="databaseBtn">精灵数据库</button>
             <button class="btn btn-fourth" id="feedbackBtn">📝 上传数据反馈</button>
         </div>
     </div>
@@ -523,18 +522,7 @@
         </div>
     </div>
 
-    <div class="modal" id="databaseModal">
-        <div class="modal-box" style="max-width: 800px; max-height: 80vh;">
-            <div class="modal-title">精灵数据库</div>
-            <div class="form-group">
-                <input type="text" id="databaseSearch" placeholder="搜索精灵名称" style="margin-bottom: 15px;">
-            </div>
-            <div class="database-list" id="databaseList" style="max-height: 60vh; overflow-y: auto;"></div>
-            <div class="modal-btn-row">
-                <button class="modal-btn modal-btn-cancel" id="closeDatabaseModal">关闭</button>
-            </div>
-        </div>
-    </div>
+
 
     <script>
         // 页面完全加载后执行所有代码，100%确保DOM元素存在
@@ -546,7 +534,7 @@
                     document.documentElement.style.setProperty('--bg-image', 'url("' + settings.frontBgImage + '")');
                 } else {
                     // 默认背景图片
-                    document.documentElement.style.setProperty('--bg-image', 'url("https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=洛克王国%20魔法%20城堡%20背景%20梦幻%20蓝色%20天空%20云朵&image_size=landscape_16_9")');
+                    document.documentElement.style.setProperty('--bg-image', 'url("images/front-bg.jpg")');
                 }
             }
             
@@ -995,20 +983,13 @@
             // 事件绑定（100%成功）
             queryBtn.onclick = handleQuery;
             resetBtn.onclick = handleReset;
-            databaseBtn.onclick = openDatabaseModal;
             feedbackBtn.onclick = openFeedbackModal;
             cancelFeedback.onclick = closeFeedbackModal;
             submitFeedback.onclick = handleSubmitFeedback;
-            closeDatabaseModal.onclick = closeDatabaseModalFunc;
-            databaseSearch.oninput = handleDatabaseSearch;
 
             // 点击弹窗外部关闭
             feedbackModal.onclick = function(e) {
                 if (e.target === feedbackModal) closeFeedbackModal();
-            };
-
-            databaseModal.onclick = function(e) {
-                if (e.target === databaseModal) closeDatabaseModalFunc();
             };
 
             // 回车触发查询
@@ -1022,9 +1003,20 @@
             // 调用加载背景图片
             loadBackgroundImage();
             
+            // 更新精灵数量
+            function updatePetCount() {
+                var petData = JSON.parse(localStorage.getItem("petData") || "[]");
+                var settings = JSON.parse(localStorage.getItem("settings") || "{}");
+                var count = settings.petCount || petData.length;
+                document.getElementById("dataCount").innerText = "当前已录入 " + count + "只精灵的数据";
+            }
+            
             // 渲染最近查询和热门精灵
             renderRecentQueries();
             renderTopPets();
+            
+            // 初始更新精灵数量
+            updatePetCount();
         };
     </script>
 </body>
