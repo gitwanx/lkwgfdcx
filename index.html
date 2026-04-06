@@ -25,7 +25,7 @@
             --radius: 16px;
             --shadow: 0 8px 32px rgba(0,0,0,0.12);
             --shadow-light: 0 4px 16px rgba(0,0,0,0.08);
-            --bg-image: url("https://img.alicdn.com/imgextra/i1/O1CN01XUYJkU1F9oWgG9lIC_!!6000000000999-0-tps-750-1125.jpg");
+            --bg-image: url("./front-bg.jpg");
         }
         html, body {
             width: 100%;
@@ -33,10 +33,11 @@
         }
         body {
             position: relative;
-            padding: 50px 20px;
+            padding: 40px 15px;
             max-width: 700px;
             margin: 0 auto;
         }
+        
         body::before {
             content: "";
             position: fixed;
@@ -59,25 +60,151 @@
         }
         .admin-entry {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
+            top: 15px;
+            right: 15px;
+            padding: 8px 16px;
             background: linear-gradient(135deg, var(--main-blue) 0%, var(--main-blue-dark) 100%);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             font-weight: 600;
             cursor: pointer;
             z-index: 99;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
         .admin-entry:hover {
             background: linear-gradient(135deg, var(--main-blue-light) 0%, var(--main-blue) 100%);
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+        .settings-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 99;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .settings-btn:hover {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        /* 移动端适配优化 */
+        @media (max-width: 600px) {
+            body {
+                padding: 30px 12px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .form-group input {
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 0;
+                font-size: 1rem;
+            }
+            .btn-row {
+                flex-direction: column;
+            }
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pet-image {
+                width: 60px;
+                height: 60px;
+            }
+            .pet-name {
+                font-size: 1.1rem;
+            }
+            .pet-stat {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+            .modal {
+                padding: 10px;
+            }
+            .modal-box {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .modal-title {
+                font-size: 1.2rem;
+            }
+            .modal-btn-row {
+                flex-direction: column;
+            }
+            .database-list {
+                grid-template-columns: 1fr;
+            }
+            .admin-entry,
+            .settings-btn {
+                top: 10px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+            .admin-entry {
+                right: 10px;
+            }
+            .settings-btn {
+                left: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .card {
+                padding: 15px;
+            }
+            .form-group input {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 10px 0;
+                font-size: 0.9rem;
+            }
+            .pet-image {
+                width: 50px;
+                height: 50px;
+            }
+            .pet-name {
+                font-size: 1rem;
+            }
+            .pet-stat {
+                font-size: 0.8rem;
+                padding: 4px 10px;
+            }
+            .modal-box {
+                padding: 15px;
+            }
+            .modal-title {
+                font-size: 1.1rem;
+            }
         }
         .header {
             text-align: center;
@@ -442,6 +569,7 @@
 </head>
 <body>
     <a href="login.html" class="admin-entry">管理后台</a>
+    <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
 
     <div class="header">
         <h1>孵蛋结果查询</h1>
@@ -522,6 +650,34 @@
         </div>
     </div>
 
+    <div class="modal" id="settingsModal">
+        <div class="modal-box">
+            <div class="modal-title">系统设置</div>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; justify-content: space-between;">
+                    <span>显示精灵图片</span>
+                    <input type="checkbox" id="showPetImages" style="width: auto; margin: 0;">
+                </label>
+            </div>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; justify-content: space-between;">
+                    <span>显示最近查询</span>
+                    <input type="checkbox" id="showRecentQueries" style="width: auto; margin: 0;">
+                </label>
+            </div>
+            <div class="form-group">
+                <label style="display: flex; align-items: center; justify-content: space-between;">
+                    <span>显示热门精灵</span>
+                    <input type="checkbox" id="showTopPets" style="width: auto; margin: 0;">
+                </label>
+            </div>
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" id="cancelSettings">取消</button>
+                <button class="modal-btn modal-btn-confirm" id="saveSettings">保存设置</button>
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -531,10 +687,15 @@
             function loadBackgroundImage() {
                 var settings = JSON.parse(localStorage.getItem("settings") || "{}");
                 if (settings.frontBgImage) {
-                    document.documentElement.style.setProperty('--bg-image', 'url("' + settings.frontBgImage + '")');
+                    // 检查是否是旧的images路径，如果是，使用新的路径
+                    var bgImage = settings.frontBgImage;
+                    if (bgImage.includes("images/")) {
+                        bgImage = bgImage.replace("images/", "./");
+                    }
+                    document.documentElement.style.setProperty('--bg-image', 'url("' + bgImage + '")');
                 } else {
                     // 默认背景图片
-                    document.documentElement.style.setProperty('--bg-image', 'url("images/front-bg.jpg")');
+                    document.documentElement.style.setProperty('--bg-image', 'url("./front-bg.jpg")');
                 }
             }
             
@@ -548,95 +709,55 @@
                 return { min: num, max: num };
             }
 
-            // 精灵数据库（可在后台Excel导入扩展）
-            var petData = JSON.parse(localStorage.getItem("petData") || JSON.stringify([
-                {name: "鸭吉吉", sizeStr: "0.38", weightStr: "6.727"},
-                {name: "板板壳", sizeStr: "0.27", weightStr: "3.28"},
-                {name: "锥尾羊", sizeStr: "0.29-0.33", weightStr: "5.606-6.345"},
-                {name: "雪绒鸟", sizeStr: "0.18", weightStr: "1.364"},
-                {name: "石肤蜥", sizeStr: "0.28", weightStr: "12.252"},
-                {name: "毛毛", sizeStr: "0.14", weightStr: "1.2-1.17"},
-                {name: "小鼠", sizeStr: "0.17", weightStr: "2.506"},
-                {name: "护主犬", sizeStr: "0.28-0.33", weightStr: "5.078-6.038"},
-                {name: "嘟嘟煲", sizeStr: "0.31-0.33", weightStr: "19.926-21.456"},
-                {name: "小灵面", sizeStr: "0.16-0.23", weightStr: "0.036-0.058"},
-                {name: "梦游", sizeStr: "0.25", weightStr: "0.4"},
-                {name: "兽花蕾", sizeStr: "0.16-0.18", weightStr: "1.559-2.171"},
-                {name: "电咩咩", sizeStr: "0.3", weightStr: "3.153"},
-                {name: "蒲公英", sizeStr: "0.13-0.2", weightStr: "0.038-0.106"},
-                {name: "白发嫩人", sizeStr: "0.36", weightStr: "7.957"},
-                {name: "海盗虫", sizeStr: "0.26", weightStr: "3.077"},
-                {name: "菊花梨", sizeStr: "0.31-0.33", weightStr: "1.785-1.987"},
-                {name: "小夜", sizeStr: "0.23-0.3", weightStr: "1.886-2.999"},
-                {name: "乖乖鸽", sizeStr: "0.23-0.27", weightStr: "1.738-2.05"},
-                {name: "记忆石", sizeStr: "0.45-0.54", weightStr: "34.822-41.751"},
-                {name: "绿翼乌", sizeStr: "0.21", weightStr: "1.35"},
-                {name: "阿米亚特", sizeStr: "0.29-0.31", weightStr: "17.131-18.153"},
-                {name: "阿米樱", sizeStr: "0.25", weightStr: "14.618"},
-                {name: "玉石", sizeStr: "0.12-0.17", weightStr: "21.405-23.87"},
-                {name: "小独角兽", sizeStr: "0.45", weightStr: "15.95"},
-                {name: "白金独角兽", sizeStr: "0.52", weightStr: "19.126"},
-                {name: "旋叶虫", sizeStr: "0.05", weightStr: "0.072"},
-                {name: "多多", sizeStr: "0.19-0.25", weightStr: "5.21-6.85"},
-                {name: "哭哭菇", sizeStr: "0.17", weightStr: "0.977"},
-                {name: "恶魔狼", sizeStr: "0.57-0.73", weightStr: "28.466-36.615"},
-                {name: "小电企鹅", sizeStr: "0.23", weightStr: "2.078"},
-                {name: "雪蛮人", sizeStr: "0.46", weightStr: "4.445"},
-                {name: "呼呼猪", sizeStr: "0.3", weightStr: "3.401"},
-                {name: "雪娃娃", sizeStr: "0.13-0.17", weightStr: "2.6-3.223"},
-                {name: "大耳帽兜", sizeStr: "0.18", weightStr: "3.32"},
-                {name: "灵狐", sizeStr: "0.29-0.3", weightStr: "3.123-3.179"},
-                {name: "公平鸽", sizeStr: "0.19", weightStr: "0.894"},
-                {name: "小狮鷄", sizeStr: "0.31-0.4", weightStr: "4.309-6.526"},
-                {name: "圆眼蜘蛛", sizeStr: "0.25", weightStr: "1.703"},
-                {name: "波波螺", sizeStr: "0.14", weightStr: "1.72"},
-                {name: "菇菇丁", sizeStr: "0.13", weightStr: "0.447"},
-                {name: "草头鸭", sizeStr: "0.27", weightStr: "2.357"},
-                {name: "海豹战士", sizeStr: "0.28-0.34", weightStr: "26.0-31.078"},
-                {name: "号儿鱼", sizeStr: "0.13", weightStr: "1.426"},
-                {name: "甜田螺", sizeStr: "0.24", weightStr: "3.653"},
-                {name: "棋棋", sizeStr: "0.16", weightStr: "4.276"},
-                {name: "奔波鼠", sizeStr: "0.23", weightStr: "2.126"},
-                {name: "逗逗", sizeStr: "0.16", weightStr: "0.297"},
-                {name: "伊雷龙", sizeStr: "0.38", weightStr: "13.136"},
-                {name: "拉特", sizeStr: "0.23-0.25", weightStr: "3.107-3.434"},
-                {name: "闪电环", sizeStr: "0.16-0.19", weightStr: "0.847-1.187"},
-                {name: "小猪怪", sizeStr: "0.18", weightStr: "2.479"},
-                {name: "古钟蛇", sizeStr: "0.44", weightStr: "2.857"},
-                {name: "矮脚爬爬", sizeStr: "0.14-0.18", weightStr: "1.327-1.654"},
-                {name: "火尾瓦特", sizeStr: "0.28-0.38", weightStr: "6.705-8.425"},
-                {name: "里拉摇", sizeStr: "0.41-0.44", weightStr: "14.782-18"},
-                {name: "海枝枝", sizeStr: "0.32-0.34", weightStr: "0.354-2.373"},
-                {name: "电动长颈鹿", sizeStr: "0.32-0.36", weightStr: "11.249-12.481"},
-                {name: "小鹤", sizeStr: "0.13", weightStr: "0.653"},
-                {name: "刺轮砣", sizeStr: "0.1", weightStr: "1.207"},
-                {name: "豆丁鱼", sizeStr: "0.15-0.16", weightStr: "0.501-0.517"},
-                {name: "胆小鳗鱼", sizeStr: "0.33-0.43", weightStr: "7.013-10.145"},
-                {name: "翡翠水母", sizeStr: "0.26-0.27", weightStr: "13.324-13.5"},
-                {name: "治愈兔", sizeStr: "0.24", weightStr: "4.221"},
-                {name: "螺旋帕帕", sizeStr: "0.15-0.19", weightStr: "0.812-1.571"},
-                {name: "可立鸡", sizeStr: "0.21", weightStr: "2.435"},
-                {name: "小甲虫", sizeStr: "0.27", weightStr: "3.21"},
-                {name: "大头骨龙", sizeStr: "0.36-0.39", weightStr: "7.299-9.974"},
-                {name: "小帕尔", sizeStr: "0.3", weightStr: "3.94"},
-                {name: "粉粉星", sizeStr: "0.32", weightStr: "1.15"}
-            ]));
+            // 精灵数据库（从JSON文件加载）
+            var petData = [];
+            
+            // 从JSON文件加载精灵数据
+            async function loadPetData() {
+                try {
+                    const response = await fetch('pet-data.json');
+                    if (!response.ok) {
+                        throw new Error('Failed to load pet data');
+                    }
+                    const data = await response.json();
+                    petData = data;
+                    // 保存到本地存储作为备份
+                    localStorage.setItem('petData', JSON.stringify(data));
+                } catch (error) {
+                    console.error('Error loading pet data:', error);
+                    // 从本地存储加载备份
+                    const backupData = localStorage.getItem('petData');
+                    if (backupData) {
+                        petData = JSON.parse(backupData);
+                    } else {
+                        // 空数组作为 fallback
+                        petData = [];
+                    }
+                }
+            }
 
             // 预处理精灵数据
             var processedPetData = [];
-            for (var i = 0; i < petData.length; i++) {
-                var pet = petData[i];
-                var size = parseRange(pet.sizeStr);
-                var weight = parseRange(pet.weightStr);
-                processedPetData.push({
-                    name: pet.name,
-                    sizeStr: pet.sizeStr,
-                    weightStr: pet.weightStr,
-                    sizeMin: size.min,
-                    sizeMax: size.max,
-                    weightMin: weight.min,
-                    weightMax: weight.max
-                });
+            
+            // 预处理精灵数据
+            function processPetData() {
+                processedPetData = [];
+                for (var i = 0; i < petData.length; i++) {
+                    var pet = petData[i];
+                    var size = parseRange(pet.sizeStr);
+                    var weight = parseRange(pet.weightStr);
+                    processedPetData.push({
+                        name: pet.name,
+                        sizeStr: pet.sizeStr,
+                        weightStr: pet.weightStr,
+                        sizeMin: size.min,
+                        sizeMax: size.max,
+                        weightMin: weight.min,
+                        weightMax: weight.max
+                    });
+                }
+                // 更新数据计数
+                updateDataCount();
             }
 
             // DOM元素获取（页面已加载完成，100%能找到）
@@ -662,12 +783,18 @@
             var closeDatabaseModal = document.getElementById("closeDatabaseModal");
             var databaseSearch = document.getElementById("databaseSearch");
             var databaseList = document.getElementById("databaseList");
+            var settingsBtn = document.getElementById("settingsBtn");
+            var settingsModal = document.getElementById("settingsModal");
+            var cancelSettings = document.getElementById("cancelSettings");
+            var saveSettings = document.getElementById("saveSettings");
+            var showPetImages = document.getElementById("showPetImages");
+            var showRecentQueries = document.getElementById("showRecentQueries");
+            var showTopPets = document.getElementById("showTopPets");
 
             // 初始化页面数据
             function updateDataCount() {
                 dataCount.innerText = "当前已录入 " + processedPetData.length + "只精灵的数据";
             }
-            updateDataCount();
 
             // 记录查询日志
             function saveQueryLog(size, weight, matchCount, matchedPets) {
@@ -763,10 +890,13 @@
                 } else {
                     resultTitle.innerText = "匹配到 " + pets.length + " 只精灵";
                     
+                    var settings = JSON.parse(localStorage.getItem("settings") || "{}");
+                    var shouldShowImages = settings.showPetImages !== false; // 默认显示图片
+                    
                     var html = "";
                     for (var i = 0; i < pets.length; i++) {
                         var pet = pets[i];
-                        var imageHtml = pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
+                        var imageHtml = shouldShowImages && pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
                         html += '<li class="result-item">' + imageHtml + '<div class="pet-info-container"><div class="pet-name">' + pet.name + '</div><div class="pet-stats"><span class="pet-stat">尺寸：' + pet.sizeStr + 'm</span><span class="pet-stat">重量：' + pet.weightStr + 'kg</span></div></div></li>';
                     }
                     resultList.innerHTML = html;
@@ -788,6 +918,7 @@
                     return;
                 }
                 
+                var shouldShowImages = settings.showPetImages !== false; // 默认显示图片
                 var queryLog = JSON.parse(localStorage.getItem("queryLog") || "[]");
                 var recentQueries = [];
                 var seenPets = new Set();
@@ -819,7 +950,7 @@
                     var html = "";
                     for (var i = 0; i < recentQueries.length; i++) {
                         var pet = recentQueries[i];
-                        var imageHtml = pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
+                        var imageHtml = shouldShowImages && pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
                         html += '<li class="result-item">' + imageHtml + '<div class="pet-info-container"><div class="pet-name">' + pet.name + '</div><div class="pet-stats"><span class="pet-stat">尺寸：' + pet.sizeStr + 'm</span><span class="pet-stat">重量：' + pet.weightStr + 'kg</span></div></div></li>';
                     }
                     document.getElementById("recentQueriesList").innerHTML = html;
@@ -839,6 +970,7 @@
                     return;
                 }
                 
+                var shouldShowImages = settings.showPetImages !== false; // 默认显示图片
                 var queryLog = JSON.parse(localStorage.getItem("queryLog") || "[]");
                 var petCounts = {};
                 
@@ -870,7 +1002,7 @@
                         // 查找精灵数据
                         var pet = processedPetData.find(p => p.name === petName);
                         if (pet) {
-                            var imageHtml = pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
+                            var imageHtml = shouldShowImages && pet.image ? '<img src="' + pet.image + '" alt="' + pet.name + '" class="pet-image">' : '';
                             html += '<li class="result-item">' + imageHtml + '<div class="pet-info-container"><div class="pet-name">' + pet.name + '</div><div class="pet-stats"><span class="pet-stat">查询次数：' + count + '次</span><span class="pet-stat">尺寸：' + pet.sizeStr + 'm</span></div></div></li>';
                         }
                     }
@@ -980,16 +1112,60 @@
                 renderDatabase(searchTerm);
             }
 
+            // 加载设置
+            function loadSettings() {
+                var settings = JSON.parse(localStorage.getItem("settings") || "{}");
+                showPetImages.checked = settings.showPetImages !== false; // 默认显示图片
+                showRecentQueries.checked = settings.showRecentQueries !== false; // 默认显示最近查询
+                showTopPets.checked = settings.showTopPets !== false; // 默认显示热门精灵
+            }
+
+            // 保存设置
+            function saveSettingsFunc() {
+                var settings = {
+                    showPetImages: showPetImages.checked,
+                    showRecentQueries: showRecentQueries.checked,
+                    showTopPets: showTopPets.checked
+                };
+                localStorage.setItem("settings", JSON.stringify(settings));
+                showMessageModal("设置保存成功！");
+                settingsModal.style.display = "none";
+                // 重新渲染结果以应用新设置
+                var currentSize = eggSizeInput.value;
+                var currentWeight = eggWeightInput.value;
+                if (currentSize && currentWeight) {
+                    handleQuery();
+                }
+            }
+
+            // 打开设置模态框
+            function openSettingsModal() {
+                loadSettings();
+                settingsModal.style.display = "flex";
+            }
+
+            // 关闭设置模态框
+            function closeSettingsModal() {
+                settingsModal.style.display = "none";
+            }
+
             // 事件绑定（100%成功）
             queryBtn.onclick = handleQuery;
             resetBtn.onclick = handleReset;
             feedbackBtn.onclick = openFeedbackModal;
             cancelFeedback.onclick = closeFeedbackModal;
             submitFeedback.onclick = handleSubmitFeedback;
+            settingsBtn.onclick = openSettingsModal;
+            cancelSettings.onclick = closeSettingsModal;
+            saveSettings.onclick = saveSettingsFunc;
 
             // 点击弹窗外部关闭
             feedbackModal.onclick = function(e) {
                 if (e.target === feedbackModal) closeFeedbackModal();
+            };
+
+            settingsModal.onclick = function(e) {
+                if (e.target === settingsModal) closeSettingsModal();
             };
 
             // 回车触发查询
@@ -1000,23 +1176,24 @@
                 if (e.key === "Enter") handleQuery();
             };
             
-            // 调用加载背景图片
-            loadBackgroundImage();
-            
-            // 更新精灵数量
-            function updatePetCount() {
-                var petData = JSON.parse(localStorage.getItem("petData") || "[]");
-                var settings = JSON.parse(localStorage.getItem("settings") || "{}");
-                var count = settings.petCount || petData.length;
-                document.getElementById("dataCount").innerText = "当前已录入 " + count + "只精灵的数据";
+            // 初始化函数
+            async function init() {
+                // 调用加载背景图片
+                loadBackgroundImage();
+                
+                // 加载精灵数据
+                await loadPetData();
+                
+                // 处理精灵数据
+                processPetData();
+                
+                // 渲染最近查询和热门精灵
+                renderRecentQueries();
+                renderTopPets();
             }
             
-            // 渲染最近查询和热门精灵
-            renderRecentQueries();
-            renderTopPets();
-            
-            // 初始更新精灵数量
-            updatePetCount();
+            // 调用初始化函数
+            init();
         };
     </script>
 </body>
